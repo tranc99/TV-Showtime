@@ -25,7 +25,12 @@
             <ul class="episode-list">
             	<li ng-repeat="tvshow in results">
             		<div class="row-fluid">
-            			
+            			<div class="span3">
+            				<img src="{{tvshow.episode.images.screen}}" />
+            				<div class="ratings"><strong>Ratings:</strong> <span class="label"><i class="icon-thumbs-up"></i>
+            				</div>
+            			</div>
+            		</div>
 
             </ul>
         </div>
