@@ -20,11 +20,24 @@
         </div>
     </div>
 	<div class="container main-frame" ng-app="TVPremieresApp" ng-controller="mainController" ng-init="init()">
-		<div class="search-box row-fluid form-inline"></div>
+		<div class="search-box row-fluid form-inline">
+			<label>Filter: </label>
+			<input type="text" ng-model="filterText"/>
+			<label>Genre: </label>
+			<select ng-model="genreFilter" ng-options="label for label in availableGenres">
+				<option value="">All</option>
+			</select>
+			<label>Order by: </label>
+			<select ng-model="orderField" ng-options="label for label in orderFields" class="input-medium"></select>
+			<select ng-model="orderReverse" class="input-medium">
+				<option value="true">Descending</option>
+				<option value="false">Ascending</option>
+			</select>
+		</div>
         <div class="results-top"></div>
         <div class="results-container">
             <ul class="episode-list">
-            	<li ng-repeat="tvshow in results">
+            	<li ng-repeat="tvshow in results | filter: filterText | isGenre: genreFilter | orderBy:customOrder:orderReverse">
             		<div class="row-fluid">
             			<div class="span3">
             				<img src="{{tvshow.episode.images.screen}}"/>
@@ -37,7 +50,17 @@
 					<h3>{{tvshow.show.title}}: {{tvshow.episode.title}}</h3>
 					<p>{{tvshow.episode.overview}}</p>
 				</div>
+				<div class="span3">
+					<div class="fulldate pull-right label label-info">{{tvshow.date}}</div>
+					<ul class="show-info">
+						<li><strong>On Air:</strong> {{tvshow.show.air_day}} {{tvshow.show.airtime}}</li>
+						<li><strong>Where to watch:</strong> {{tvshow.show.network}}</li>
+						<li><strong>Season #:</strong> {{tvshow.episode.season}}</li>
+						<li><strong>Genres:</strong> <span class="label label-inverse genre" ng-repeat="genre in tvshow.show.genres" ng-click="setGenreFilter(genre)">{{genre}}</span></li>
+					</ul>
+				</div>
             		</div>
+		</li>	
 
             </ul>
         </div>
